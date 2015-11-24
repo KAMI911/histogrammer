@@ -82,7 +82,7 @@ class HistogrammerWorkflow:
                 files_list = glob.glob(os.path.join(self.inputfiles, '*.' + self.inputformat))
             for workfile in files_list:
                 logging.info('Adding %s to the queue.' % (workfile))
-                image_input_file = os.path.join(self.inputpath, os.path.basename(workfile))
+                image_input_file = workfile
                 filename = os.path.relpath(workfile, self.inputpath)
                 filename_name = os.path.splitext(filename)[0]
                 image_output_file = os.path.join(self.outputpath, filename_name + '.' + self.outputformat)

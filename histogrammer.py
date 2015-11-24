@@ -7,7 +7,7 @@ try:
     import glob
     import logging
     import datetime
-    from lib import Logging, Timing, HistogrammerCommandline, HistogrammerWorkflow
+    from libs import Logging, Timing, HistogrammerCommandline, HistogrammerWorkflow
     from datetime import date
 except Exception as err:
     traceback.print_exc()
