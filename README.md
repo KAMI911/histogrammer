@@ -71,7 +71,7 @@ https://download.lfd.uci.edu/pythonlibs/t5yhk4lc/numpy-1.14.3+mkl-cp35-cp35m-win
 And install it:
 
 ```
-C:\Python27\Scripts\pip.exe install "numpy-1.14.3+mkl-cp35-cp35m-win_amd64.whl"
+C:\Python35\Scripts\pip.exe install "numpy-1.14.3+mkl-cp35-cp35m-win_amd64.whl"
 ```
 
 **Install OpenCV**
@@ -93,7 +93,7 @@ https://download.lfd.uci.edu/pythonlibs/t5yhk4lc/opencv_python-3.4.1-cp35-cp35m-
 And install it:
 
 ```
-C:\Python27\Scripts\pip.exe install "opencv_python-3.4.1-cp35-cp35m-win_amd64.whl"
+C:\Python35\Scripts\pip.exe install "opencv_python-3.4.1-cp35-cp35m-win_amd64.whl"
 ```
 
 ### Windows (using rather old Python 2.7)
