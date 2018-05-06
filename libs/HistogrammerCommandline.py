@@ -4,7 +4,7 @@ try:
     import traceback
     import argparse
     import textwrap
-except Exception as err:
+except ImportError as err:
     traceback.print_exc()
     exit(128)
 
