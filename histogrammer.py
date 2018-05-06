@@ -18,11 +18,10 @@ __version__ = '20180506'
 
 header = textwrap.dedent('''Histogrammer''')
 
+def init_log():
+    logging.config.fileConfig('log.conf')
 
 def main():
-    logfilename = 'histogrammer_' + datetime.datetime.today().strftime('%Y%m%d_%H%M%S') + '.log'
-    Logging.SetLogging(logfilename)
-
     logging.info(header)
     logging.info('Version: %s' % (__version__))
 
@@ -40,6 +39,7 @@ def main():
 
 
 if __name__ == '__main__':
+    init_log()
     timer = timing.Timing()
     main()
     logging.info('Total duration of process: {}. Finished, exiting and go home ...'.format(timer.end()))
