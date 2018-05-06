@@ -6,6 +6,7 @@ try:
     import textwrap
     import glob
     import logging
+    import logging.config
     import datetime
     from libs import Logging, timing, HistogrammerCommandline, HistogrammerWorkflow
     from datetime import date
