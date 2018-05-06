@@ -10,8 +10,9 @@ try:
     import numpy as np
     import cv2
     import multiprocessing
+    import pyexiv2
     from datetime import date
-except Exception as err:
+except ImportError as err:
     traceback.print_exc()
     exit(128)
 
@@ -50,6 +51,19 @@ def ProcessImageHistogram(paramterers):
         # Write image, file type decided based on its extension
         cv2.imwrite(output_file, cl1)
         logging.info('[%s] File has been written: %s.' % (proc_name, output_file))
+        # Copy EXIF data from original image
+        try:
+            source_image = pyexiv2.metadata.ImageMetadata(input_file)
+            source_image.read()
+            destination_image = pyexiv2.metadata.ImageMetadata(output_file)
+            destination_image.read()
+            source_image.copy(destination_image, exif=True, iptc=True, xmp=True, comment=True)
+            destination_image.write(preserve_timestamps=True    )
+        except Exception as err:
+            logging.warning('[{}] Error occured during EXIF manipulation ({})'.format(proc_name, err))
+            raise(err)
+        else:
+            logging.info('[%s] File EXIF has set: %s.' % (proc_name, output_file))
     return 0
 
 
@@ -79,7 +93,8 @@ class HistogrammerWorkflow:
                     if temp_files_list:
                         files_list = files_list + temp_files_list
             else:
-                files_list = glob.glob(os.path.join(self.inputfiles, '*.' + self.inputformat))
+                files_list = glob.glob(os.path.join(self.inputfiles, '*.' + self.inputformat.lower()))
+                files_list += glob.glob(os.path.join(self.inputfiles, '*.' + self.inputformat.upper()))
             for workfile in files_list:
                 logging.info('Adding %s to the queue.' % (workfile))
                 image_input_file = workfile
@@ -98,20 +113,20 @@ class HistogrammerWorkflow:
                 doing.append([workfile, image_output_file, self.image_contrast_limit])
             else:
                 image_output_file = os.path.join(self.outputpath,
-                                                 os.path.basename(workfile.replace('.' + inputformat,
+                                                 os.path.basename(workfile.replace('.' + self.inputformat,
                                                                                    '') + '_opt.' + self.outputformat))
-                doing.append([workfile, image_input_file, image_output_file, self.image_contrast_limit])
-            logging.info('Adding %s to the queue.' % (workfile))
+                doing.append([workfile, image_output_file, self.image_contrast_limit])
+            logging.info('Adding {} to the queue.'.format(workfile))
         else:
             # Not a file, not a dir
-            logging.error('Cannot found input file: %s!' % (inputfiles))
+            logging.error('Cannot found input file: {}!'.format(self.inputfiles))
             exit(1)
 
         # If we got one file, start only one process
         if self.inputisdir is False:
             self.cores = 1
 
-        if self.cores <> 1:
+        if self.cores != 1:
             pool = multiprocessing.Pool(processes=self.cores)
             results = pool.map_async(ProcessImageHistogram, doing)
             pool.close()

@@ -14,7 +14,7 @@ except Exception as err:
     exit(128)
 
 script_path = __file__
-__version__ = '20151123'
+__version__ = '20180506'
 
 header = textwrap.dedent('''Histogrammer''')
 
