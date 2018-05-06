@@ -7,9 +7,9 @@ try:
     import glob
     import logging
     import datetime
-    from libs import Logging, Timing, HistogrammerCommandline, HistogrammerWorkflow
+    from libs import Logging, timing, HistogrammerCommandline, HistogrammerWorkflow
     from datetime import date
-except Exception as err:
+except ImportError as err:
     traceback.print_exc()
     exit(128)
 
@@ -20,7 +20,6 @@ header = textwrap.dedent('''Histogrammer''')
 
 
 def main():
-    timer = Timing.Timing()
     logfilename = 'histogrammer_' + datetime.datetime.today().strftime('%Y%m%d_%H%M%S') + '.log'
     Logging.SetLogging(logfilename)
 
@@ -38,8 +37,9 @@ def main():
                                                                       histogrammer_commandline.get_recursive(),
                                                                       histogrammer_commandline.get_image_contrast_limit())
     histogrammer_workflow.process()
-    logging.info('Total duration of process: %s. Finished, exiting and go home ...' % timer.end())
 
 
 if __name__ == '__main__':
+    timer = timing.Timing()
     main()
+    logging.info('Total duration of process: {}. Finished, exiting and go home ...'.format(timer.end()))
