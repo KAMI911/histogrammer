@@ -22,13 +22,13 @@ py3exiv2 - https://pypi.org/project/py3exiv2/
 
 ### Linux (Debian/Ubuntu/Linux Mint)
 
-**Install Python 3.5 (3.0 or newer), Numpy, OpenCV
+**Install Python 3.5 (3.0 or newer), Numpy, OpenCV**
 
 ```
 sudo apt-get install python3.3 python-numpy python-opencv python-all-dev libexiv2-dev libboost-python-dev g++
 ```
 
-** Install required modules
+**Install required modules**
 
 ```
 pip install -r requirements.txt
